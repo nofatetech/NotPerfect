@@ -1,127 +1,331 @@
-<div id="ddd_home">
+<div id="ddd_home" style="xxdisplay: none;">
 
-  <h3>Home</h3>
-
-
-<div>
-
-<div
-  hx-get="myapp/tracking/view_tracking_wins.html"
-  hx-trigger="load"
-  hx-target="#tracking-wins-container"
-  hx-swap="innerHTML">
-</div>
-<div id="tracking-wins-container"></div>
+  <h3>Welcome, {{username}}</h3>
 
 
-</div>
+  <div>
+
+    <!-- <div hx-get="myapp/tracking/view_tracking_wins.html" hx-trigger="load" hx-target="#view_tracking_wins"
+      hx-swap="innerHTML">
+    </div>
+    <div id="view_tracking_wins"></div> -->
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
 
 
 
   <div>
-    <div class="d-flex justify-content-center align-items-center" style="min-height: 320px;">
-      <div class="card shadow-lg p-4"
-        style="xxxwidth: 340px; border-radius: 1.5rem; background: rgba(30,34,40,0.93); color: #fff;">
-        <ul class="nav nav-pills nav-justified mb-3" id="authTab" role="tablist" style="background: none;">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-pane"
-              type="button" role="tab" aria-controls="login-pane" aria-selected="true"
-              style="border-radius: 1rem 0 0 1rem;">Login</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-pane"
-              type="button" role="tab" aria-controls="register-pane" aria-selected="false"
-              style="border-radius: 0 1rem 1rem 0;">Register</button>
-          </li>
-        </ul>
-        <div class="tab-content" id="authTabContent">
-          <div class="tab-pane fade show active" id="login-pane" role="tabpanel" aria-labelledby="login-tab">
-            <form id="loginForm" autocomplete="off">
-              <div class="mb-3">
-                <input type="text" class="form-control form-control-lg bg-dark text-light border-0"
-                  placeholder="Username" required style="border-radius: 1rem;">
-              </div>
-              <div class="mb-3">
-                <input type="password" class="form-control form-control-lg bg-dark text-light border-0"
-                  placeholder="Password" required style="border-radius: 1rem;">
-              </div>
-              <button type="submit" class="btn btn-primary w-100 py-2"
-                style="border-radius: 1rem; background: linear-gradient(90deg,#00c6fb,#005bea); border: none;">Login</button>
-            </form>
-          </div>
-          <div class="tab-pane fade" id="register-pane" role="tabpanel" aria-labelledby="register-tab">
-            <form id="registerForm" autocomplete="off">
-              <div class="mb-3">
-                <input type="text" class="form-control form-control-lg bg-dark text-light border-0"
-                  placeholder="Username" required style="border-radius: 1rem;">
-              </div>
-              <div class="mb-3">
-                <input type="email" class="form-control form-control-lg bg-dark text-light border-0" placeholder="Email"
-                  required style="border-radius: 1rem;">
-              </div>
-              <div class="mb-3">
-                <input type="password" class="form-control form-control-lg bg-dark text-light border-0"
-                  placeholder="Password" required style="border-radius: 1rem;">
-              </div>
-              <button type="submit" class="btn btn-success w-100 py-2"
-                style="border-radius: 1rem; background: linear-gradient(90deg,#43e97b,#38f9d7); border: none;">Register</button>
-            </form>
-          </div>
-        </div>
+
+
+    <form id="decision-form" style="margin: 2rem 11px;">
+      <div style="display: flex; gap: 2rem; justify-content: center;">
+        <button type="button" id="btn-x"
+          style="flex:1; font-size:4rem; padding:2.5rem 0; background:#ff4d4f; color:white; border:none; border-radius:1.5rem; cursor:pointer;">
+          &#10006;
+        </button>
+        <button type="button" id="btn-check"
+          style="flex:1; font-size:4rem; padding:2.5rem 0; background:#52c41a; color:white; border:none; border-radius:1.5rem; cursor:pointer;">
+          &#10004;
+        </button>
       </div>
-    </div>
-    <style>
-      #ddd_home .card {
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-        border: 1.5px solid rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(8px);
-      }
-
-      #ddd_home .form-control:focus {
-        background: #23272f;
-        color: #fff;
-        box-shadow: 0 0 0 0.15rem #00c6fb33;
-        border-color: #00c6fb;
-      }
-
-      #ddd_home .nav-pills .nav-link.active {
-        background: linear-gradient(90deg, #00c6fb, #005bea);
-        color: #fff;
-        font-weight: 500;
-        box-shadow: 0 2px 8px 0 rgba(0, 198, 251, 0.08);
-      }
-
-      #ddd_home .nav-pills .nav-link {
-        color: #b0b8c1;
-        background: none;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-      }
-    </style>
+    </form>
     <script>
-      $(function () {
-        // Animate card in
-        gsap.from("#ddd_home .card", { duration: 1, y: 40, opacity: 0, ease: "power3.out" });
-        gsap.from("#ddd_home .nav-link", { duration: 0.7, y: -20, opacity: 0, stagger: 0.1, delay: 0.2, ease: "power2.out" });
+      // Track which button was pressed
+      let decisionValue = null;
+      $('#btn-x').on('click', function () {
+        decisionValue = 'x';
+        $('#decision-form').submit();
+      });
+      $('#btn-check').on('click', function () {
+        decisionValue = 'check';
+        $('#decision-form').submit();
+      });
+      $('#decision-form').on('submit', function (e) {
+        e.preventDefault();
+        // TODO: Implement AJAX POST here
+        // Example:
+        // $.post('/your-endpoint', { decision: decisionValue }, function(response) {
+        //   // handle response
+        // });
+      });
+    </script>
 
-        // Minimal fake submit handlers
-        $("#loginForm").on("submit", function (e) {
-          e.preventDefault();
-          gsap.to("#ddd_home .card", { scale: 0.97, yoyo: true, repeat: 1, duration: 0.12, ease: "power1.inOut" });
-          setTimeout(function () {
-            alert("Logged in! (demo)");
-          }, 300);
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+  <div>
+    <div id="mosaic-container"
+      style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 12px; max-width: 520px; margin: 2rem auto;">
+
+    </div>
+    <script>
+      // Helper to generate a random boolean
+      function randomBool() {
+        return Math.random() > 0.5;
+      }
+
+      // Generate a random color for check or x
+      function getColor(type) {
+        return type === 'check' ? '#52c41a' : '#ff4d4f';
+      }
+
+      // Generate a single mosaic cell
+      function createMosaicCell(type) {
+        const symbol = type === 'check' ? '&#10004;' : '&#10006;';
+        const color = getColor(type);
+        // Random rotation for fun
+        const rotate = (Math.random() - 0.5) * 18; // -9deg to +9deg
+        // Random scale
+        const scale = 0.85 + Math.random() * 0.3;
+        // Random shadow
+        const shadow = type === 'check'
+          ? '0 2px 12px 0 #52c41a33'
+          : '0 2px 12px 0 #ff4d4f33';
+        // Return jQuery element
+        return $(`
+      <div class="mosaic-cell" tabindex="0" style="
+        background: ${color};
+        color: white;
+        font-size: 2.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 1.1rem;
+        cursor: pointer;
+        user-select: none;
+        box-shadow: ${shadow};
+        transition: box-shadow 0.18s;
+        transform: rotate(${rotate}deg) scale(${scale});
+        min-height: 54px;
+        min-width: 54px;
+        outline: none;
+      ">${symbol}</div>
+    `).data('type', type);
+      }
+
+      // Fill the mosaic with random checkmarks and x's
+      function fillMosaic() {
+        const $container = $('#mosaic-container');
+        $container.empty();
+        const rows = 5, cols = 8;
+        for (let i = 0; i < rows * cols; i++) {
+          const type = randomBool() ? 'check' : 'x';
+          const $cell = createMosaicCell(type);
+          $container.append($cell);
+        }
+        // Animate in
+        $container.children().each(function (idx, el) {
+          gsap.fromTo(el,
+            { opacity: 0, y: 30, scale: 0.7 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.5, delay: 0.03 * idx, ease: "back.out(1.7)" }
+          );
         });
-        $("#registerForm").on("submit", function (e) {
-          e.preventDefault();
-          gsap.to("#ddd_home .card", { scale: 0.97, yoyo: true, repeat: 1, duration: 0.12, ease: "power1.inOut" });
-          setTimeout(function () {
-            alert("Registered! (demo)");
-          }, 300);
+      }
+
+      // Interactive: clicking a cell toggles its type with animation
+      $('#mosaic-container').on('click keypress', '.mosaic-cell', function (e) {
+        if (e.type === 'keypress' && e.which !== 13 && e.which !== 32) return; // Enter/Space only
+        const $cell = $(this);
+        const oldType = $cell.data('type');
+        const newType = oldType === 'check' ? 'x' : 'check';
+        // Animate out
+        gsap.to(this, {
+          scale: 1.2,
+          rotate: "+=18",
+          opacity: 0.2,
+          duration: 0.18,
+          onComplete: () => {
+            // Change symbol and color
+            $cell.html(newType === 'check' ? '&#10004;' : '&#10006;');
+            $cell.css({
+              background: getColor(newType),
+              boxShadow: newType === 'check'
+                ? '0 2px 12px 0 #52c41a33'
+                : '0 2px 12px 0 #ff4d4f33'
+            });
+            $cell.data('type', newType);
+            // Animate back in
+            gsap.fromTo(this,
+              { scale: 0.7, opacity: 0.2 },
+              { scale: 1, opacity: 1, rotate: 0, duration: 0.32, ease: "back.out(1.7)" }
+            );
+          }
         });
+      });
+
+      // Add a "Remix" button to randomize the mosaic
+      const $remixBtn = $(`
+    <button id="remix-mosaic" style="
+      display: block;
+      margin: 1.2rem auto 0 auto;
+      background: linear-gradient(90deg,#00c6fb,#005bea);
+      color: white;
+      border: none;
+      border-radius: 1.2rem;
+      font-size: 1.2rem;
+      padding: 0.7rem 2.2rem;
+      cursor: pointer;
+      box-shadow: 0 2px 12px 0 #00c6fb33;
+      transition: box-shadow 0.18s;
+    ">Remix Mosaic</button>
+  `);
+      $('#mosaic-container').after($remixBtn);
+
+      $('#remix-mosaic').on('click', function () {
+        // Animate out all cells, then refill
+        const $cells = $('#mosaic-container').children();
+        gsap.to($cells, {
+          opacity: 0,
+          y: 30,
+          scale: 0.7,
+          duration: 0.25,
+          stagger: 0.01,
+          onComplete: fillMosaic
+        });
+        // Animate button
+        gsap.fromTo(this, { scale: 1 }, { scale: 1.13, duration: 0.13, yoyo: true, repeat: 1, ease: "power1.inOut" });
+      });
+
+      // Initial fill
+      $(function () {
+        fillMosaic();
       });
     </script>
   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Stats Section with Graphs -->
+  <div class="stats-section" style="margin: 2rem 0; xxxbackground: #f8f9fa; border-radius: 10px; padding: 2rem;">
+    <!-- <h4 style="margin-bottom: 1.5rem;">User Statistics</h4> -->
+    <div style="margin-top:2rem; background: #f8f9fa; border-radius: 10px; padding: 2rem;">
+      <div class="row">
+        <div class="col-md-2 col-6 text-center mb-3">
+          <div class="stat-value" style="font-size:2rem; font-weight:bold;">1,245</div>
+          <div class="stat-label text-secondary">Logins</div>
+        </div>
+        <div class="col-md-2 col-6 text-center mb-3">
+          <div class="stat-value" style="font-size:2rem; font-weight:bold;">87%</div>
+          <div class="stat-label text-secondary">Profile Complete</div>
+        </div>
+        <div class="col-md-2 col-6 text-center mb-3">
+          <div class="stat-value" style="font-size:2rem; font-weight:bold;">32</div>
+          <div class="stat-label text-secondary">Projects</div>
+        </div>
+        <div class="col-md-2 col-6 text-center mb-3">
+          <div class="stat-value" style="font-size:2rem; font-weight:bold;">14</div>
+          <div class="stat-label text-secondary">Tasks Today</div>
+        </div>
+        <div class="col-md-2 col-6 text-center mb-3">
+          <div class="stat-value" style="font-size:2rem; font-weight:bold;">5d</div>
+          <div class="stat-label text-secondary">Current Streak</div>
+        </div>
+        <div class="col-md-2 col-6 text-center mb-3">
+          <div class="stat-value" style="font-size:2rem; font-weight:bold;">98</div>
+          <div class="stat-label text-secondary">Messages</div>
+        </div>
+      </div>
+      <canvas id="statsChart" height="80"></canvas>
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+    // Wrap all code in an IIFE to avoid polluting the global scope
+    (function () {
+      // Fake data for the chart
+      const chartLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const chartData = [12, 19, 14, 17, 22, 18, 25];
+
+      $(document).ready(function () {
+        // Destroy previous chart instance if it exists
+        if (window.statsChartInstance) {
+          window.statsChartInstance.destroy();
+        }
+        // Render the stats chart
+        if ($('#statsChart').length) {
+          const ctx = document.getElementById('statsChart').getContext('2d');
+          window.statsChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: chartLabels,
+              datasets: [{
+                label: 'Activity (actions/day)',
+                data: chartData,
+                fill: true,
+                backgroundColor: 'rgba(54, 162, 235, 0.15)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                tension: 0.4,
+                pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+              }]
+            },
+            options: {
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: { beginAtZero: true }
+              }
+            }
+          });
+        }
+      });
+    })();
+  </script>
+
+
+
+  <div>
+
+
+
+
+  </div>
+
+
+
+  <div>
+
+    <!-- <div hx-get="myapp/auth/view_login_register.html" hx-trigger="load" hx-target="#view_login_register"
+      hx-swap="innerHTML">
+    </div>
+    <div id="view_login_register"></div> -->
+  </div>
+
+</div>
 
 
 </div>

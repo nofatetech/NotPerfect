@@ -8,40 +8,47 @@ myprofile
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
-  // Fake data for the chart
-  const chartLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const chartData = [12, 19, 14, 17, 22, 18, 25];
+  // Wrap all code in an IIFE to avoid polluting the global scope
+  (function () {
+    // Fake data for the chart
+    const chartLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const chartData = [12, 19, 14, 17, 22, 18, 25];
 
-  $(document).ready(function () {
-    // Render the stats chart
-    if ($('#statsChart').length) {
-      const ctx = document.getElementById('statsChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: chartLabels,
-          datasets: [{
-            label: 'Activity (actions/day)',
-            data: chartData,
-            fill: true,
-            backgroundColor: 'rgba(54, 162, 235, 0.15)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 2,
-            tension: 0.4,
-            pointBackgroundColor: 'rgba(54, 162, 235, 1)'
-          }]
-        },
-        options: {
-          plugins: {
-            legend: { display: false }
+    $(document).ready(function () {
+      // Destroy previous chart instance if it exists
+      if (window.statsChartInstance) {
+        window.statsChartInstance.destroy();
+      }
+      // Render the stats chart
+      if ($('#statsChart').length) {
+        const ctx = document.getElementById('statsChart').getContext('2d');
+        window.statsChartInstance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: chartLabels,
+            datasets: [{
+              label: 'Activity (actions/day)',
+              data: chartData,
+              fill: true,
+              backgroundColor: 'rgba(54, 162, 235, 0.15)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 2,
+              tension: 0.4,
+              pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+            }]
           },
-          scales: {
-            y: { beginAtZero: true }
+          options: {
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              y: { beginAtZero: true }
+            }
           }
-        }
-      });
-    }
-  });
+        });
+      }
+    });
+  })();
 </script>
 
 
@@ -229,9 +236,13 @@ myprofile
 
 
 <script>
+  $(function () {
 
-  $(document).ready(function () {
-    console.log('about');
-    $("nav").hide();
+    $(document).ready(function () {
+      console.log('about');
+      $("nav").hide();
+      $(".mobile-bottom-nav").hide();
+    });
   });
+
 </script>

@@ -21,6 +21,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
   <style>
     /* body {
             font-family: Arial, sans-serif;
@@ -64,6 +67,65 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             min-height: 400px;
         } */
+
+    /* Cool full-body background image */
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(120deg, rgba(0,198,251,0.25) 0%, rgba(0,91,234,0.18) 100%),
+        url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
+      background-size: cover;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+    }
+
+    /* Hide the top nav on mobile, show bottom nav */
+    @media (max-width: 767.98px) {
+      nav:not(.mobile-bottom-nav) {
+        display: none !important;
+      }
+      .mobile-bottom-nav {
+        display: flex !important;
+      }
+    }
+
+    /* Bottom nav styles */
+    .mobile-bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: #fff;
+      border-top: 1px solid #e0e0e0;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.04);
+      justify-content: space-around;
+      align-items: center;
+    }
+    .mobile-bottom-nav .nav-link {
+      flex: 1 1 0;
+      text-align: center;
+      color: #555;
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 0.5rem 0 0.2rem 0;
+      transition: color 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mobile-bottom-nav .nav-link.active,
+    .mobile-bottom-nav .nav-link:active,
+    .mobile-bottom-nav .nav-link:focus {
+      color: #007bff;
+    }
+    .mobile-bottom-nav .nav-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      margin-bottom: 0.1rem;
+    }
   </style>
 </head>
 
@@ -116,6 +178,8 @@
       $(window).on('hashchange', loadInitialContent);
     });
   </script>
+
+  <div>asfsdf</div>
 </body>
 
 </html>
