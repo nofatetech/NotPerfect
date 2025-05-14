@@ -1,0 +1,71 @@
+<!-- Stats Section with Graphs -->
+<div class="stats-section" style="margin: 2rem 0; background: #f8f9fa; border-radius: 10px; padding: 2rem;">
+  <h4 style="margin-bottom: 1.5rem;">User Statistics</h4>
+  <div class="row">
+    <div class="col-md-2 col-6 text-center mb-3">
+      <div class="stat-value" style="font-size:2rem; font-weight:bold;">1,245</div>
+      <div class="stat-label text-secondary">Logins</div>
+    </div>
+    <div class="col-md-2 col-6 text-center mb-3">
+      <div class="stat-value" style="font-size:2rem; font-weight:bold;">87%</div>
+      <div class="stat-label text-secondary">Profile Complete</div>
+    </div>
+    <div class="col-md-2 col-6 text-center mb-3">
+      <div class="stat-value" style="font-size:2rem; font-weight:bold;">32</div>
+      <div class="stat-label text-secondary">Projects</div>
+    </div>
+    <div class="col-md-2 col-6 text-center mb-3">
+      <div class="stat-value" style="font-size:2rem; font-weight:bold;">14</div>
+      <div class="stat-label text-secondary">Tasks Today</div>
+    </div>
+    <div class="col-md-2 col-6 text-center mb-3">
+      <div class="stat-value" style="font-size:2rem; font-weight:bold;">5d</div>
+      <div class="stat-label text-secondary">Current Streak</div>
+    </div>
+    <div class="col-md-2 col-6 text-center mb-3">
+      <div class="stat-value" style="font-size:2rem; font-weight:bold;">98</div>
+      <div class="stat-label text-secondary">Messages</div>
+    </div>
+  </div>
+  <div style="margin-top:2rem;">
+    <canvas id="statsChart" height="80"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+// Fake data for the chart
+const chartLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const chartData = [12, 19, 14, 17, 22, 18, 25];
+
+$(document).ready(function () {
+  // Render the stats chart
+  if ($('#statsChart').length) {
+    const ctx = document.getElementById('statsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: chartLabels,
+        datasets: [{
+          label: 'Activity (actions/day)',
+          data: chartData,
+          fill: true,
+          backgroundColor: 'rgba(54, 162, 235, 0.15)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 2,
+          tension: 0.4,
+          pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+});
+</script>
