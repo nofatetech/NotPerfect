@@ -1,0 +1,132 @@
+<div>
+
+<!-- Load required libraries -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+  .win-tracker-container {
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .category-btn {
+    display: inline-block;
+    width: 90%;
+    max-width: 350px;
+    margin: 1rem auto;
+    font-size: 2.2rem;
+    padding: 2rem 0;
+    border: none;
+    border-radius: 2rem;
+    background: #4CAF50;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .category-btn:active {
+    background: #388E3C;
+  }
+  .win-list {
+    margin-top: 2.5rem;
+    text-align: left;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .win-entry {
+    background: #f1f8e9;
+    border-radius: 1rem;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 8px rgba(76,175,80,0.07);
+  }
+  .win-category {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #388E3C;
+    margin-right: 0.7rem;
+    min-width: 90px;
+    text-align: center;
+  }
+  .win-time {
+    font-size: 0.95rem;
+    color: #888;
+    margin-left: auto;
+  }
+</style>
+
+<div class="win-tracker-container">
+  <h1 style="font-size:2.5rem; margin-bottom:1.5rem;">Track Your Small Wins</h1>
+  <div id="category-buttons">
+    <button class="category-btn" data-category="Focus">🎯 Focus</button>
+    <button class="category-btn" data-category="Movement">🏃 Movement</button>
+    <button class="category-btn" data-category="Social">💬 Social</button>
+    <button class="category-btn" data-category="Self-care">🛁 Self-care</button>
+    <button class="category-btn" data-category="Other">✨ Other</button>
+  </div>
+  <div id="win-list" class="win-list"></div>
+</div>
+
+<script>
+  // Helper to get current time as HH:MM
+  function getCurrentTime() {
+    const now = new Date();
+    return now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  }
+
+  // Animate button press
+  function animateButton(btn) {
+    gsap.fromTo(btn, {scale:1}, {scale:1.13, duration:0.13, yoyo:true, repeat:1, ease:"power1.inOut"});
+  }
+
+  // Animate new win entry
+  function animateWinEntry(entry) {
+    gsap.from(entry, {opacity:0, y:30, duration:0.5, ease:"back.out(1.7)"});
+  }
+
+  // Add win to the list
+  function addWin(category) {
+    // Optionally, prompt for a short description
+    let desc = '';
+    if (category === 'Other') {
+      desc = prompt("Describe your win:");
+      if (!desc) return;
+    } else {
+      desc = category + " win!";
+    }
+    const time = getCurrentTime();
+    const $entry = $(`
+      <div class="win-entry">
+        <span class="win-category">${category}</span>
+        <span class="win-desc">${desc}</span>
+        <span class="win-time">${time}</span>
+      </div>
+    `);
+    $('#win-list').prepend($entry);
+    animateWinEntry($entry[0]);
+  }
+
+  // Button click handler
+  $('#category-buttons').on('click', '.category-btn', function() {
+    const category = $(this).data('category');
+    animateButton(this);
+    setTimeout(() => addWin(category), 120);
+  });
+
+  // Optionally, load previous wins via htmx (if backend endpoint exists)
+  // <div id="win-list" hx-get="/tracking/api/wins" hx-trigger="load" hx-swap="innerHTML"></div>
+</script>
+
+
+</div>
